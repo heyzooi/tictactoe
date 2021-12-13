@@ -157,6 +157,7 @@ mod tests {
         let mut game = Game::with(mock);
         game.play();
         assert_eq!(game.state.winner, Some(Player::X));
+        assert_eq!(game.state.moves, 5);
         assert_eq!(game.state.board.positions.get(&BoardPosition::A1), Some(&Player::X));
         assert_eq!(game.state.board.positions.get(&BoardPosition::A2), Some(&Player::X));
         assert_eq!(game.state.board.positions.get(&BoardPosition::A3), Some(&Player::X));
@@ -180,6 +181,7 @@ mod tests {
         let mut game = Game::with(mock);
         game.play();
         assert_eq!(game.state.winner, Some(Player::X));
+        assert_eq!(game.state.moves, 7);
         assert_eq!(game.state.board.positions.get(&BoardPosition::A1), Some(&Player::X));
         assert_eq!(game.state.board.positions.get(&BoardPosition::A2), Some(&Player::O));
         assert_eq!(game.state.board.positions.get(&BoardPosition::A3), Some(&Player::X));
@@ -204,11 +206,47 @@ mod tests {
         let mut game = Game::with(mock);
         game.play();
         assert_eq!(game.state.winner, Some(Player::O));
+        assert_eq!(game.state.moves, 6);
         assert_eq!(game.state.board.positions.get(&BoardPosition::B2), Some(&Player::X));
         assert_eq!(game.state.board.positions.get(&BoardPosition::A1), Some(&Player::O));
         assert_eq!(game.state.board.positions.get(&BoardPosition::A3), Some(&Player::X));
         assert_eq!(game.state.board.positions.get(&BoardPosition::C1), Some(&Player::O));
         assert_eq!(game.state.board.positions.get(&BoardPosition::C3), Some(&Player::X));
         assert_eq!(game.state.board.positions.get(&BoardPosition::B1), Some(&Player::O));
+    }
+
+    #[test]
+    fn test_game_play_game_over_no_winner() {
+        /*
+         O | X | X
+         X | X | O
+         O | O | X
+        */
+        let mock = Box::new(MockUserInput::new(
+            vec![
+                String::from("B2"),
+                String::from("A1"),
+                String::from("A3"),
+                String::from("C1"),
+                String::from("B1"),
+                String::from("B3"),
+                String::from("A2"),
+                String::from("C2"),
+                String::from("C3"),
+            ],
+        ));
+        let mut game = Game::with(mock);
+        game.play();
+        assert_eq!(game.state.winner, None);
+        assert_eq!(game.state.moves, 9);
+        assert_eq!(game.state.board.positions.get(&BoardPosition::B2), Some(&Player::X));
+        assert_eq!(game.state.board.positions.get(&BoardPosition::A1), Some(&Player::O));
+        assert_eq!(game.state.board.positions.get(&BoardPosition::A3), Some(&Player::X));
+        assert_eq!(game.state.board.positions.get(&BoardPosition::C1), Some(&Player::O));
+        assert_eq!(game.state.board.positions.get(&BoardPosition::B1), Some(&Player::X));
+        assert_eq!(game.state.board.positions.get(&BoardPosition::B3), Some(&Player::O));
+        assert_eq!(game.state.board.positions.get(&BoardPosition::A2), Some(&Player::X));
+        assert_eq!(game.state.board.positions.get(&BoardPosition::C2), Some(&Player::O));
+        assert_eq!(game.state.board.positions.get(&BoardPosition::C3), Some(&Player::X));
     }
 }
