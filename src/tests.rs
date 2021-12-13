@@ -217,11 +217,6 @@ mod tests {
 
     #[test]
     fn test_game_play_game_over_no_winner() {
-        /*
-         O | X | X
-         X | X | O
-         O | O | X
-        */
         let mock = Box::new(MockUserInput::new(
             vec![
                 String::from("B2"),
