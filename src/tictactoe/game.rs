@@ -65,7 +65,7 @@ impl Game {
     }
 
     pub fn play(&mut self) {
-        while self.state.winner.is_none() {
+        while self.state.winner.is_none() && self.state.moves < 9 {
             println!("{}", self.state.board);
 
             match self.read_next_move() {
@@ -76,6 +76,9 @@ impl Game {
         }
 
         println!("{}", self.state.board);
-        println!("Winner is: Player {}", self.state.winner.unwrap());
+        match self.state.winner {
+            Some(winner) => println!("Winner is: Player {}", winner),
+            None => println!("Game over without a winner!"),
+        }
     }
 }

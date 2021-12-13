@@ -5,7 +5,8 @@ include!("player.rs");
 struct State {
     board: Board,
     current_player: Player,
-    winner: Option<Player>
+    winner: Option<Player>,
+    moves: u8,
 }
 
 impl State {
@@ -17,7 +18,8 @@ impl State {
         Self {
             board: Board::new(),
             current_player: initial_player,
-            winner: None
+            winner: None,
+            moves: 0,
         }
     }
 
@@ -33,6 +35,7 @@ impl State {
                 Player::O => self.current_player = Player::X,
             }
         }
+        self.moves += 1;
         return true;
     }
 }
